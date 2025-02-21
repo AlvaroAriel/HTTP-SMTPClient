@@ -2,28 +2,28 @@ package main
 
 import (
 	"fmt"
-	"log"
-
-	smtpclient "github.com/AlvaroAriel/HTTP-SMTPClient/smptclient"
+	"net/http"
 )
 
 func main() {
 
-	recipients := []string{"some mails"}
-	subject := "sub"
-	body := "some text"
-	message := smtpclient.BuildMessage(recipients, subject, body)
+	mux := http.NewServeMux()
 
-	client, err := smtpclient.BuildClient()
+	mux.HandleFunc("POST /send", handleSendEmail())
+
+	fmt.Println("Starting server on port 8080...")
+	err := http.ListenAndServe(":8080", mux)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(fmt.Errorf("something went wrong while initializating the serve %w", err))
 	}
+}
 
-	err = client.SendEmail(recipients, message)
+func handleSendEmail() http.HandlerFunc {
 
-	if err != nil {
-		fmt.Println("Failed sending email: ", err)
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		//implement
 	}
 
 }
