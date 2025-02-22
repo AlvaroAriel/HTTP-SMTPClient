@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	httperror "github.com/AlvaroAriel/HTTP-SMTPClient/error"
 	smtpclient "github.com/AlvaroAriel/HTTP-SMTPClient/smptclient"
 )
 
@@ -57,26 +58,26 @@ func handleSendEmail(smtpClient smtpclient.Client, recipients []string) http.Han
 		var email Email
 
 		err := json.NewDecoder(r.Body).Decode(&email)
-
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			httperror.JSONError(w, httperror.InvalidJSON())
 			return
 		}
+
 		defer r.Body.Close()
 
 		if email.Body == "" || email.Subject == "" {
-			http.Error(w, "Empty members", http.StatusBadRequest)
+			httperror.JSONError(w, httperror.EmptyField())
 			return
 		}
 
 		message := smtpclient.BuildMessage(recipients, email.Subject, email.Body)
 
 		err = smtpClient.SendEmail(recipients, message)
-
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			httperror.JSONError(w, err)
 			return
 		}
+
 		w.WriteHeader(http.StatusNoContent)
 	}
 
