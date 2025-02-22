@@ -9,13 +9,12 @@ import (
 
 func main() {
 
-	envPath := ".env"
-	recipients := []string{"insert some email"}
+	recipients := []string{"some mails"}
 	subject := "sub"
 	body := "some text"
 	message := smtpclient.BuildMessage(recipients, subject, body)
 
-	client, err := smtpclient.BuildClient(envPath)
+	client, err := smtpclient.BuildClient()
 
 	if err != nil {
 		log.Fatal(err)
