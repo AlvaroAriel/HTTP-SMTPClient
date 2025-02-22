@@ -43,9 +43,9 @@ func createPlainAuthentication(client smptConfig) smtp.Auth {
 
 // BuildClient loads environment variables and creates a configured SMTP client.
 // It returns the client and any errors encountered during the process.
-func BuildClient(envPath string) (Client, error) {
+func BuildClient(filepath ...string) (Client, error) {
 
-	if err := godotenv.Load(envPath); err != nil {
+	if err := godotenv.Load(filepath...); err != nil {
 		return &smptClient{}, fmt.Errorf("an error has occured while loading env variables: %w", err)
 	}
 
