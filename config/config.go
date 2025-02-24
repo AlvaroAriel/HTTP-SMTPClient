@@ -1,6 +1,7 @@
 package config
 
 import (
+	"log"
 	"net"
 	"os"
 )
@@ -15,6 +16,10 @@ func NewConfig() *Config {
 	host := os.Getenv("APP_HOST")
 	port := os.Getenv("APP_PORT")
 	env := os.Getenv("APP_ENV")
+
+	if host == "" {
+		log.Fatal("no host given")
+	}
 
 	return &Config{
 		Address:    net.JoinHostPort(host, port),
