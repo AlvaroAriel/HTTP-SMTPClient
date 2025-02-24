@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	response "github.com/AlvaroAriel/HTTP-SMTPClient/server"
+	"github.com/AlvaroAriel/HTTP-SMTPClient/internal/server"
 )
 
 type APIError struct {
@@ -34,11 +34,11 @@ func EmptyField() APIError {
 func JSONError(w http.ResponseWriter, err error) {
 
 	if e, ok := err.(APIError); ok {
-		response.WriteJson(w, e.StatusCode, e)
+		server.WriteJson(w, e.StatusCode, e)
 		return
 	}
 
-	response.WriteJson(w, http.StatusInternalServerError, map[string]string{
+	server.WriteJson(w, http.StatusInternalServerError, map[string]string{
 		"detail": "Internal Server Error",
 	})
 }
