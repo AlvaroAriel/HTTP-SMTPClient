@@ -5,8 +5,6 @@ import (
 	"net/smtp"
 	"os"
 	"strings"
-
-	"github.com/joho/godotenv"
 )
 
 // createSMTPConfig loads SMTP configuration details from environment variables
@@ -44,10 +42,6 @@ func createPlainAuthentication(client smptConfig) smtp.Auth {
 // BuildClient loads environment variables and creates a configured SMTP client.
 // It returns the client and any errors encountered during the process.
 func BuildClient(filepath ...string) (Client, error) {
-
-	if err := godotenv.Load(filepath...); err != nil {
-		return &smptClient{}, fmt.Errorf("an error has occured while loading env variables: %w", err)
-	}
 
 	config, err := createSMTPConfig()
 
