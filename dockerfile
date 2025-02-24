@@ -9,7 +9,7 @@ RUN go build -o server .
 
 # Minimal image which runs binary
 FROM scratch                  
-# Copia solo el binario compilado
-COPY --from=builder /app/server /server  
+COPY --from=builder /app/server /server
+EXPOSE 8000
 #Execute it
 ENTRYPOINT ["/server"]

@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/AlvaroAriel/HTTP-SMTPClient/config"
-	"github.com/joho/godotenv"
 
 	"github.com/AlvaroAriel/HTTP-SMTPClient/internal/email"
 	"github.com/AlvaroAriel/HTTP-SMTPClient/internal/middleware"
@@ -28,11 +27,7 @@ func newServer(config *config.Config, smtpClient smtpclient.Client) http.Server 
 
 }
 
-func Run(envPaths ...string) {
-
-	if err := godotenv.Load(envPaths...); err != nil {
-		log.Fatal("enviroment file not found")
-	}
+func Run() {
 
 	config := config.NewConfig()
 	smtpClient, err := smtpclient.BuildClient()
